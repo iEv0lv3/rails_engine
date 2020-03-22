@@ -36,6 +36,8 @@ namespace :csv do
 
     CSV.foreach(items, headers: true, header_converters: :symbol) do |row|
       item_hash = row.to_hash
+      money = item_hash[:unit_price].to_i / 100.00
+      item_hash[:unit_price] = money
       Item.create!(item_hash)
     end
 
@@ -43,6 +45,8 @@ namespace :csv do
 
     CSV.foreach(invoice_items, headers: true, header_converters: :symbol) do |row|
       invoice_items_hash = row.to_hash
+      money = invoice_items_hash[:unit_price].to_i / 100.00
+      invoice_items_hash[:unit_price] = money
       InvoiceItem.create!(invoice_items_hash)
     end
 

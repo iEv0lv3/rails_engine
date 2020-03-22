@@ -50,6 +50,9 @@ namespace :csv do
 
     CSV.foreach(transactions, headers: true, header_converters: :symbol) do |row|
       transaction_hash = row.to_hash
+      if transaction_hash[:credit_card_expiration_date] == nil
+        transaction_hash[:credit_card_expiration_date] = ""
+      end
       Transaction.create!(transaction_hash)
     end
 

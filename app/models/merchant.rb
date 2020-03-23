@@ -38,6 +38,14 @@ class Merchant < ApplicationRecord
       .sum('invoice_items.quantity * invoice_items.unit_price').round(2)
   end
 
+  def revenue_by_date(start_date, end_date)
+    transactions
+      .where(result: 'success')
+      .joins(:invoice_items)
+      .where(created_at: start_date..end_date)
+      .sum('invoice_items.quantity * invoice_items.unit_price').round(2)
+  end
+
   def self.most_revenue(quantity)
     all.sort_by do |merchant|
       merchant.revenue

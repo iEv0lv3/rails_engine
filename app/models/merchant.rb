@@ -30,4 +30,17 @@ class Merchant < ApplicationRecord
       .match(updated_at)
     )
   end
+
+  def revenue
+    transactions
+      .where(result: 'success')
+      .joins(:invoice_items)
+      .sum('invoice_items.quantity * invoice_items.unit_price').round(2)
+  end
+
+  def self.most_revenue(quantity)
+    all.sort_by do |merchant|
+      merchant.revenue
+    end.reverse[0..quantity.to_i - 1]
+  end
 end

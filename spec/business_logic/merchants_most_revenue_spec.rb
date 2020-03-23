@@ -41,5 +41,13 @@ RSpec.describe 'Merchants with the most revenue', type: :request do
     expect(merchants[:data].count).to eq(5)
     expect(merchants[:data].first[:attributes][:name]).to eq('Vegan Co-op')
     expect(merchants[:data].last[:attributes][:name]).to eq('Dota2 Shop')
+
+    get "/api/v1/merchants/#{merchant1.id}/revenue"
+
+    expect(response).to be_successful
+
+    merchant = JSON.parse(response.body, symbolize_names: true)
+
+    expect(merchant[:data][:attributes][:revenue]).to eq(100)
   end
 end

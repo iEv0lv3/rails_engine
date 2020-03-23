@@ -12,6 +12,8 @@ Rails.application.routes.draw do
         get '/:id/items', to: 'items#index'
         get '/find', to: 'search#show'
         get '/find_all', to: 'search#index'
+        get '/most_revenue', to: 'revenue#index'
+        get '/:id/revenue', to: 'revenue#show'
       end
 
       resources :merchants, except: [:new, :edit]
